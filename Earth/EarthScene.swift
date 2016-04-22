@@ -16,14 +16,14 @@ class EarthScene: SCNScene {
 
         let sphereGeometry = SCNSphere(radius: 1.0)
         let sphereNode = SCNNode(geometry: sphereGeometry)
-        sphereNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at night")
+        sphereNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
         self.rootNode.addChildNode(sphereNode)
 
         let light = SCNLight()
-        light.type = SCNLightTypeAmbient
+        light.type = SCNLightTypeDirectional
         let lightNode = SCNNode()
         lightNode.light = light
-//        lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
+        lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
         self.rootNode.addChildNode(lightNode)
     }
     
