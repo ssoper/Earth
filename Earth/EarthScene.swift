@@ -32,6 +32,12 @@ class EarthScene: SCNScene {
         spin.duration = 30
         spin.repeatCount = .infinity
         sphereNode.addAnimation(spin, forKey: "spin around")
+
+        let secondSphere = SCNSphere(radius: 0.05)
+        let secondNode = SCNNode(geometry: secondSphere)
+        secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
+        secondNode.position = SCNVector3(x:-0.5, y: 0.5, z: 0.7)
+        self.rootNode.addChildNode(secondNode)
     }
     
     required init?(coder aDecoder: NSCoder) {
