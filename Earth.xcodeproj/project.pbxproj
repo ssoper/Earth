@@ -398,6 +398,7 @@
 				D8A1E89E1CCA8F9000AD45F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D8A1E89F1CCA8F9000AD45F6 /* Build configuration list for PBXNativeTarget "EarthTests" */ = {
 			isa = XCConfigurationList;
@@ -406,6 +407,7 @@
 				D8A1E8A11CCA8F9000AD45F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

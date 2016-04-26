@@ -11,13 +11,18 @@ import SceneKit
 
 class EarthScene: SCNScene {
 
+    var sphereNode: SCNNode?
+    var night = false
+
     override init() {
         super.init()
 
         let sphereGeometry = SCNSphere(radius: 1.0)
-        let sphereNode = SCNNode(geometry: sphereGeometry)
-        sphereNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
-        self.rootNode.addChildNode(sphereNode)
+        sphereNode = SCNNode(geometry: sphereGeometry)
+        sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
+        if let sphereNode = sphereNode {
+            self.rootNode.addChildNode(sphereNode)
+        }
 
         let light = SCNLight()
         light.type = SCNLightTypeDirectional
@@ -26,12 +31,7 @@ class EarthScene: SCNScene {
         lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
         self.rootNode.addChildNode(lightNode)
 
-        let spin = CABasicAnimation(keyPath: "rotation")
-        spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
-        spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(4*M_PI)))
-        spin.duration = 30
-        spin.repeatCount = .infinity
-        sphereNode.addAnimation(spin, forKey: "spin around")
+        addAnimation()
 
         let secondSphere = SCNSphere(radius: 0.05)
         let secondNode = SCNNode(geometry: secondSphere)
@@ -42,6 +42,29 @@ class EarthScene: SCNScene {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func addAnimation() {
+        let spin = CABasicAnimation(keyPath: "rotation")
+        spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
+        spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(4*M_PI)))
+        spin.duration = 30
+        spin.repeatCount = .infinity
+        sphereNode?.addAnimation(spin, forKey: "spin around")
+    }
+
+    func switchImage() {
+        sphereNode?.removeAnimationForKey("spin around")
+
+        if night {
+            sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
+            night = false
+        } else {
+            sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at night")
+            night = true
+        }
+
+        addAnimation()
     }
 
 }
