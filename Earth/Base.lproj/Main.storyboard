@@ -34,7 +34,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.52941176470588236" green="0.52941176470588236" blue="0.52941176470588236" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="0.51132531474820142" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="1sz-cg-5AA"/>
                                 </constraints>
@@ -51,6 +51,7 @@
                             <outletCollection property="gestureRecognizers" destination="KAX-3A-B1F" appends="YES" id="mwQ-it-PYH"/>
                         </connections>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="overlay" destination="n5k-MB-hxA" id="oQT-Uc-qhT"/>
                     </connections>

@@ -12,36 +12,48 @@ import SceneKit
 class EarthScene: SCNScene {
 
     var sphereNode: SCNNode?
+    var lightNode: SCNNode?
     var night = false
 
     override init() {
         super.init()
 
+        background.contents = UIImage(named: "starfield")
+
         let sphereGeometry = SCNSphere(radius: 1.0)
         sphereNode = SCNNode(geometry: sphereGeometry)
         sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
         if let sphereNode = sphereNode {
-            self.rootNode.addChildNode(sphereNode)
+            rootNode.addChildNode(sphereNode)
         }
 
-        let light = SCNLight()
-        light.type = SCNLightTypeDirectional
-        let lightNode = SCNNode()
-        lightNode.light = light
-        lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
-        self.rootNode.addChildNode(lightNode)
-
+        addLight()
         addAnimation()
-
+/*
         let secondSphere = SCNSphere(radius: 0.05)
         let secondNode = SCNNode(geometry: secondSphere)
         secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
         secondNode.position = SCNVector3(x:-0.5, y: 0.5, z: 0.7)
-        self.rootNode.addChildNode(secondNode)
+        rootNode.addChildNode(secondNode)
+ */
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func addLight() {
+        lightNode?.removeFromParentNode()
+
+        let light = SCNLight()
+        light.type = SCNLightTypeDirectional
+        lightNode = SCNNode()
+
+        if let lightNode = lightNode {
+            lightNode.light = light
+            lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
+            rootNode.addChildNode(lightNode)
+        }
     }
 
     func addAnimation() {
@@ -54,18 +66,27 @@ class EarthScene: SCNScene {
     }
 
     func switchImage() {
-        sphereNode?.pauseAnimationForKey("spin around")
-        sphereNode?.removeAnimationForKey("spin around")
-
-        if night {
-            sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
-            night = false
-        } else {
-            sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at night")
-            night = true
+        guard let sphereNode = sphereNode else {
+            return
         }
 
-        addAnimation()
+        sphereNode.pauseAnimationForKey("spin around")
+        sphereNode.removeAnimationForKey("spin around")
+
+        let delayInSeconds: Int64 = Int64(0.25 * Double(NSEC_PER_SEC))
+        let popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds)
+
+        dispatch_after(popTime, dispatch_get_main_queue()) {
+            if self.night {
+                sphereNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
+                self.night = false
+            } else {
+                sphereNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at night")
+                self.night = true
+            }
+
+            self.addAnimation()
+        }
     }
 
 }
