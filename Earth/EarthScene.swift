@@ -20,23 +20,23 @@ struct Location {
 
     var x: Float? {
         if let latitude = latitude, longitude = longitude {
-            return Float(cos(radians(latitude)) * cos(radians(longitude)) * 1.0)
+            return Float(cos(radians(latitude)) * sin(radians(longitude)) * 6371)
         }
 
         return nil
     }
 
     var y: Float? {
-        if let latitude = latitude, longitude = longitude {
-            return Float(cos(radians(latitude)) * sin(radians(longitude)) * 1.0)
+        if let latitude = latitude {
+            return Float(sin(radians(latitude)) * 6371)
         }
 
         return nil
     }
 
     var z: Float? {
-        if let latitude = latitude {
-            return Float(sin(radians(latitude)) * 1.0)
+        if let latitude = latitude, longitude = longitude {
+            return Float(cos(radians(latitude)) * cos(radians(longitude)) * 6371)
         }
 
         return nil
@@ -54,7 +54,7 @@ class EarthScene: SCNScene {
 
         background.contents = UIImage(named: "starfield")
 
-        let sphereGeometry = SCNSphere(radius: 1.0)
+        let sphereGeometry = SCNSphere(radius: 6371)
         sphereNode = SCNNode(geometry: sphereGeometry)
         sphereNode?.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth at day")
         if let sphereNode = sphereNode {
@@ -64,9 +64,10 @@ class EarthScene: SCNScene {
         addLight()
         addAnimation()
 
-        let dc = Location(name: "Washington, D.C.", latitude: 38.98, longitude: -77.03)
+        let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
         if let x = dc.x, y = dc.y, z = dc.z {
-            let secondSphere = SCNSphere(radius: 0.05)
+            print("x: \(x) y: \(y) z: \(z)")
+            let secondSphere = SCNSphere(radius: 100)
             let secondNode = SCNNode(geometry: secondSphere)
             secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
             secondNode.position = SCNVector3(x: x, y: y, z: z)
@@ -87,7 +88,7 @@ class EarthScene: SCNScene {
 
         if let lightNode = lightNode {
             lightNode.light = light
-            lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 4.5)
+            lightNode.position = SCNVector3(x: -1.5, y: 1.5, z: 8000)
             rootNode.addChildNode(lightNode)
         }
     }
