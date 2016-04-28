@@ -94,12 +94,20 @@ class EarthScene: SCNScene {
     }
 
     func addAnimation() {
-        let spin = CABasicAnimation(keyPath: "rotation")
-        spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
-        spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(2*M_PI)))
-        spin.duration = 30
-        spin.repeatCount = .infinity
-        sphereNode?.addAnimation(spin, forKey: "spin around")
+//        let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
+//        if let y = dc.y {
+            let offset = Double((77*M_PI)/180)
+            let spin = CABasicAnimation(keyPath: "rotation")
+            spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
+            spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(4*M_PI+offset)))
+            spin.duration = 5
+            spin.repeatCount = 1 //.infinity
+            spin.fillMode = kCAFillModeForwards
+            spin.removedOnCompletion = false
+            spin.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            sphereNode?.addAnimation(spin, forKey: "spin around")
+
+//        }
     }
 
     func switchImage() {
