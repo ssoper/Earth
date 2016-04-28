@@ -9,6 +9,40 @@
 import UIKit
 import SceneKit
 
+struct Location {
+    var name: String?
+    var latitude: Double?
+    var longitude: Double?
+
+    func radians(degrees: Double) -> Double {
+        return Double((degrees*M_PI)/180)
+    }
+
+    var x: Float? {
+        if let latitude = latitude, longitude = longitude {
+            return Float(cos(radians(latitude)) * cos(radians(longitude)) * 1.0)
+        }
+
+        return nil
+    }
+
+    var y: Float? {
+        if let latitude = latitude, longitude = longitude {
+            return Float(cos(radians(latitude)) * sin(radians(longitude)) * 1.0)
+        }
+
+        return nil
+    }
+
+    var z: Float? {
+        if let latitude = latitude {
+            return Float(sin(radians(latitude)) * 1.0)
+        }
+
+        return nil
+    }
+}
+
 class EarthScene: SCNScene {
 
     var sphereNode: SCNNode?
@@ -29,13 +63,15 @@ class EarthScene: SCNScene {
 
         addLight()
         addAnimation()
-/*
-        let secondSphere = SCNSphere(radius: 0.05)
-        let secondNode = SCNNode(geometry: secondSphere)
-        secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
-        secondNode.position = SCNVector3(x:-0.5, y: 0.5, z: 0.7)
-        rootNode.addChildNode(secondNode)
- */
+
+        let dc = Location(name: "Washington, D.C.", latitude: 38.98, longitude: -77.03)
+        if let x = dc.x, y = dc.y, z = dc.z {
+            let secondSphere = SCNSphere(radius: 0.05)
+            let secondNode = SCNNode(geometry: secondSphere)
+            secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
+            secondNode.position = SCNVector3(x: x, y: y, z: z)
+            sphereNode?.addChildNode(secondNode)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
