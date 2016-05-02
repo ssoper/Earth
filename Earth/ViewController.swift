@@ -12,6 +12,7 @@ import SceneKit
 class ViewController: UIViewController {
 
     @IBOutlet var overlay: UIView!
+    @IBOutlet var newspaper: UIView!
 
     var scnView: SCNView?
 
@@ -44,6 +45,9 @@ class ViewController: UIViewController {
 
             self.overlay.frame = CGRectMake(0, CGFloat(changeInY), self.overlay.frame.width, self.overlay.frame.height)
         }
+
+        // TODO
+//        UIView.setAnimationTransition(.CurlDown, forView: newspaper, cache: false)
     }
 
     @IBAction func switchChanged(sender: UISwitch) {

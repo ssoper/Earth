@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8DE271AE1CD3F5620082E9E9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE271AD1CD3F5620082E9E9 /* Location.swift */; };
 		D8A1E8831CCA8F9000AD45F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1E8821CCA8F9000AD45F6 /* AppDelegate.swift */; };
 		D8A1E8851CCA8F9000AD45F6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1E8841CCA8F9000AD45F6 /* ViewController.swift */; };
 		D8A1E8881CCA8F9000AD45F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8A1E8861CCA8F9000AD45F6 /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8DE271AD1CD3F5620082E9E9 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		D8A1E87F1CCA8F9000AD45F6 /* Earth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Earth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8A1E8821CCA8F9000AD45F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8A1E8841CCA8F9000AD45F6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				D8A1E8821CCA8F9000AD45F6 /* AppDelegate.swift */,
 				D8A1E8841CCA8F9000AD45F6 /* ViewController.swift */,
 				D8A1E8A41CCA905300AD45F6 /* EarthScene.swift */,
+				8DE271AD1CD3F5620082E9E9 /* Location.swift */,
 				D8A1E8861CCA8F9000AD45F6 /* Main.storyboard */,
 				D8A1E8891CCA8F9000AD45F6 /* Assets.xcassets */,
 				D8A1E88B1CCA8F9000AD45F6 /* LaunchScreen.storyboard */,
@@ -206,6 +209,7 @@
 			files = (
 				D8A1E8851CCA8F9000AD45F6 /* ViewController.swift in Sources */,
 				D8A1E8A51CCA905300AD45F6 /* EarthScene.swift in Sources */,
+				8DE271AE1CD3F5620082E9E9 /* Location.swift in Sources */,
 				D8A1E8831CCA8F9000AD45F6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

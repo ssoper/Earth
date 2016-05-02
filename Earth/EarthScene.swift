@@ -9,40 +9,6 @@
 import UIKit
 import SceneKit
 
-struct Location {
-    var name: String?
-    var latitude: Double?
-    var longitude: Double?
-
-    func radians(degrees: Double) -> Double {
-        return Double((degrees*M_PI)/180)
-    }
-
-    var x: Float? {
-        if let latitude = latitude, longitude = longitude {
-            return Float(cos(radians(latitude)) * sin(radians(longitude)) * 6371)
-        }
-
-        return nil
-    }
-
-    var y: Float? {
-        if let latitude = latitude {
-            return Float(sin(radians(latitude)) * 6371)
-        }
-
-        return nil
-    }
-
-    var z: Float? {
-        if let latitude = latitude, longitude = longitude {
-            return Float(cos(radians(latitude)) * cos(radians(longitude)) * 6371)
-        }
-
-        return nil
-    }
-}
-
 class EarthScene: SCNScene {
 
     var sphereNode: SCNNode?
@@ -62,17 +28,10 @@ class EarthScene: SCNScene {
         }
 
         addLight()
-        addAnimation()
 
         let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
-        if let x = dc.x, y = dc.y, z = dc.z {
-            print("x: \(x) y: \(y) z: \(z)")
-            let secondSphere = SCNSphere(radius: 100)
-            let secondNode = SCNNode(geometry: secondSphere)
-            secondNode.geometry?.firstMaterial?.diffuse.contents = UIColor.redColor()
-            secondNode.position = SCNVector3(x: x, y: y, z: z)
-            sphereNode?.addChildNode(secondNode)
-        }
+
+        addAnimation(dc)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -93,21 +52,22 @@ class EarthScene: SCNScene {
         }
     }
 
-    func addAnimation() {
-//        let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
-//        if let y = dc.y {
-            let offset = Double((77*M_PI)/180)
-            let spin = CABasicAnimation(keyPath: "rotation")
-            spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
-            spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(4*M_PI+offset)))
-            spin.duration = 5
-            spin.repeatCount = 1 //.infinity
-            spin.fillMode = kCAFillModeForwards
-            spin.removedOnCompletion = false
-            spin.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            sphereNode?.addAnimation(spin, forKey: "spin around")
+    func addAnimation(location: Location) {
+        guard let node = sphereNode else {
+            return
+        }
 
-//        }
+        let offset = Double((abs(location.longitude)*M_PI)/180)
+        let spin = CABasicAnimation(keyPath: "rotation")
+        spin.fromValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 0, z: 0, w: 0))
+        spin.toValue = NSValue(SCNVector4: SCNVector4(x: 0, y: 1, z: 0, w: Float(4*M_PI+offset)))
+        spin.duration = 5
+        spin.repeatCount = 1 //.infinity
+        spin.fillMode = kCAFillModeForwards
+        spin.removedOnCompletion = false
+        spin.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        sphereNode?.addAnimation(spin, forKey: "spin around")
+        spin.delegate = LocationAnimation(location: location, node: node)
     }
 
     func switchImage() {
@@ -130,7 +90,8 @@ class EarthScene: SCNScene {
                 self.night = true
             }
 
-            self.addAnimation()
+            let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
+            self.addAnimation(dc)
         }
     }
 
