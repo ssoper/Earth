@@ -46,8 +46,13 @@ class ViewController: UIViewController {
             self.overlay.frame = CGRectMake(0, CGFloat(changeInY), self.overlay.frame.width, self.overlay.frame.height)
         }
 
-        // TODO
-//        UIView.setAnimationTransition(.CurlDown, forView: newspaper, cache: false)
+        // TODO: Add container view
+        // http://stackoverflow.com/questions/9524048/how-to-flip-an-individual-uiview-without-flipping-the-parent-view/9524837#9524837
+        UIView.animateWithDuration(5.0) {
+            UIView.setAnimationTransition(.CurlDown, forView: self.view, cache: true)
+            self.newspaper.hidden = false
+        }
+
     }
 
     @IBAction func switchChanged(sender: UISwitch) {
