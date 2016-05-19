@@ -12,7 +12,7 @@ import SceneKit
 class ViewController: UIViewController {
 
     @IBOutlet var overlay: UIView!
-    @IBOutlet var newspaper: UIView!
+    @IBOutlet var contentView: UIView!
 
     var scnView: SCNView?
 
@@ -46,11 +46,9 @@ class ViewController: UIViewController {
             self.overlay.frame = CGRectMake(0, CGFloat(changeInY), self.overlay.frame.width, self.overlay.frame.height)
         }
 
-        // TODO: Add container view
-        // http://stackoverflow.com/questions/9524048/how-to-flip-an-individual-uiview-without-flipping-the-parent-view/9524837#9524837
         UIView.animateWithDuration(5.0) {
-            UIView.setAnimationTransition(.CurlDown, forView: self.view, cache: true)
-            self.newspaper.hidden = false
+            self.contentView.hidden = false
+            UIView.setAnimationTransition(.CurlDown, forView: self.contentView, cache: true)
         }
 
     }
