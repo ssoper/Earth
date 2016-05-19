@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
     @IBOutlet var overlay: UIView!
     @IBOutlet var contentView: UIView!
+    @IBOutlet var locationLabel: UILabel!
+    @IBOutlet var textView: UITextView!
 
     var scnView: SCNView?
 
@@ -47,6 +49,8 @@ class ViewController: UIViewController {
         }
 
         UIView.animateWithDuration(5.0) {
+            self.textView.text = "The folks who live in and around the nation’s capital are veterans of everything from the Sept. 11 terrorist attacks to the mass shooting at the Washington Navy Yard. But in the past few months, cupboards have been shaking and dishes have been rattling as what appear to be V-22 Ospreys — massive, tilt-rotor aircraft that don’t look or sound like any of the zippy dragonfly helicopters we’re all used to — are hovering over Northern Virginia neighborhoods."
+            self.locationLabel.text = "Washington, D.C."
             self.contentView.hidden = false
             UIView.setAnimationTransition(.CurlDown, forView: self.contentView, cache: true)
         }
