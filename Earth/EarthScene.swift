@@ -30,15 +30,36 @@ class EarthScene: SCNScene {
         addLight()
 
         let dc = Location("Washington, D.C.", 38.9072, -77.0369, 500)
-//        let paris = Location(name: "Paris, France", latitude: 48.8566, longitude: 2.3522)
+        let paris = Location("Paris, France", 48.8566, 2.3522, 500)
         let goa = Location("Goa, India", 15.2993, 74.1240, 500)
 
         sphereNode?.addChildNode(dc.node)
-//        sphereNode?.addChildNode(paris.node)
+        sphereNode?.addChildNode(paris.node)
         sphereNode?.addChildNode(goa.node)
 
-//        sphereNode?.addChildNode(lineBetweenNodeA(dc.node, nodeB: paris.node))
-        sphereNode?.addChildNode(lineBetweenNodeA(dc.node, nodeB: goa.node))
+        sphereNode?.addChildNode(lineBetweenNodeA(dc.node, nodeB: paris.node))
+        sphereNode?.addChildNode(lineBetweenNodeA(paris.node, nodeB: goa.node))
+
+
+        let rome = Location("Rome, Italy", 41.9028, 12.4964)
+        // Define a 2D path for the parabola
+        let path = UIBezierPath()
+        path.moveToPoint(CGPointZero)
+        path.addQuadCurveToPoint(CGPoint(x: 100, y: 0), controlPoint: CGPoint(x: 50, y: 200))
+        path.addLineToPoint(CGPoint(x: 99, y: 0))
+        path.addQuadCurveToPoint(CGPoint(x: 1, y: 0), controlPoint: CGPoint(x: 50, y: 198))
+
+        // Tweak for a smoother shape (lower is smoother)
+        path.flatness = 0.25
+
+        // Make a 3D extruded shape from the path
+        let shape = SCNShape(path: path, extrusionDepth: 10)
+        shape.firstMaterial?.diffuse.contents = UIColor.greenColor()
+        let shapeNode = SCNNode(geometry: shape)
+        shapeNode.position = SCNVector3(rome.x, rome.y, rome.z)
+        shapeNode.scale = SCNVector3(53.48, 5, 2)
+        sphereNode?.addChildNode(shapeNode)
+        print("** transform\(shapeNode.rotation)")
 //        addAnimation(dc)
     }
 
