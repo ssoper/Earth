@@ -29,13 +29,36 @@ class EarthScene: SCNScene {
 
         addLight()
 
-        let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
+        let dc = Location("Washington, D.C.", 38.9072, -77.0369, 500)
+//        let paris = Location(name: "Paris, France", latitude: 48.8566, longitude: 2.3522)
+        let goa = Location("Goa, India", 15.2993, 74.1240, 500)
 
-        addAnimation(dc)
+        sphereNode?.addChildNode(dc.node)
+//        sphereNode?.addChildNode(paris.node)
+        sphereNode?.addChildNode(goa.node)
+
+//        sphereNode?.addChildNode(lineBetweenNodeA(dc.node, nodeB: paris.node))
+        sphereNode?.addChildNode(lineBetweenNodeA(dc.node, nodeB: goa.node))
+//        addAnimation(dc)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+
+
+    func lineBetweenNodeA(nodeA: SCNNode, nodeB: SCNNode) -> SCNNode {
+        let positions: [Float32] = [nodeA.position.x, nodeA.position.y, nodeA.position.z, nodeB.position.x, nodeB.position.y, nodeB.position.z]
+        let positionData = NSData(bytes: positions, length: sizeof(Float32)*positions.count)
+        let indices: [Int32] = [0, 1]
+        let indexData = NSData(bytes: indices, length: sizeof(Int32) * indices.count)
+
+        let source = SCNGeometrySource(data: positionData, semantic: SCNGeometrySourceSemanticVertex, vectorCount: indices.count, floatComponents: true, componentsPerVector: 3, bytesPerComponent: sizeof(Float32), dataOffset: 0, dataStride: sizeof(Float32) * 3)
+        let element = SCNGeometryElement(data: indexData, primitiveType: SCNGeometryPrimitiveType.Line, primitiveCount: indices.count, bytesPerIndex: sizeof(Int32))
+
+        let line = SCNGeometry(sources: [source], elements: [element])
+        return SCNNode(geometry: line)
     }
 
     func addLight() {
@@ -90,7 +113,7 @@ class EarthScene: SCNScene {
                 self.night = true
             }
 
-            let dc = Location(name: "Washington, D.C.", latitude: 38, longitude: -77)
+            let dc = Location("Washington, D.C.", 38.9072, -77.0369)
             self.addAnimation(dc)
         }
     }
