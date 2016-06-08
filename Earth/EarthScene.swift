@@ -49,15 +49,22 @@ class EarthScene: SCNScene {
         path.addLineToPoint(CGPoint(x: 99, y: 0))
         path.addQuadCurveToPoint(CGPoint(x: 1, y: 0), controlPoint: CGPoint(x: 50, y: 198))
 
+//        path.moveToPoint(CGPoint(x: Double(rome.x), y: Double(rome.y)))
+//        path.addQuadCurveToPoint(CGPoint(x: Double(goa.x), y: Double(goa.y)), controlPoint: CGPoint(x: Double(goa.x-rome.x), y: Double(goa.y + 200)))
+//        path.addLineToPoint(CGPoint(x: 99, y: 0))
+//        path.addQuadCurveToPoint(CGPoint(x: 1, y: 0), controlPoint: CGPoint(x: 50, y: 198))
+
         // Tweak for a smoother shape (lower is smoother)
         path.flatness = 0.25
 
         // Make a 3D extruded shape from the path
-        let shape = SCNShape(path: path, extrusionDepth: 10)
+        let shape = SCNShape(path: path, extrusionDepth: 0)
+        shape.firstMaterial?.doubleSided = true // no effect :-/
         shape.firstMaterial?.diffuse.contents = UIColor.greenColor()
         let shapeNode = SCNNode(geometry: shape)
         shapeNode.position = SCNVector3(rome.x, rome.y, rome.z)
-        shapeNode.scale = SCNVector3(53.48, 5, 2)
+        shapeNode.scale = SCNVector3(50, 20, 10)
+        shapeNode.pivot = SCNMatrix4MakeTranslation(10, 10, 20)
         sphereNode?.addChildNode(shapeNode)
         print("** transform\(shapeNode.rotation)")
 //        addAnimation(dc)
